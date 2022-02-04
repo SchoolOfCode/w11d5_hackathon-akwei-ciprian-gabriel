@@ -25,29 +25,21 @@ export default function Home() {
 				? `https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb`
 				: city.length > 0
 				? `https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&city=${city}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb`
-				: `https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb`
-		const response = await fetch(url) //&countryCode=GB
+				: `https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb&countryCode=GB`
+		const response = await fetch(url)
 		const data = await response.json()
 		console.log('single data: ', data)
 
 		setEvents(data._embedded.events.slice(0, 10))
 	}
-	// console.log('key: ', process.env.NEXT_PUBLIC_API_KEY)
 	useEffect(() => {
 		async function fetchEvents() {
 			const response = await fetch(
 				`https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB`
 			)
-			//&countryCode=GB
 			const data = await response.json()
 			console.log('events data: ', data)
-			setEvents(data._embedded.events.slice(0, 50))
-			// const eventTypes = data._embedded.events.map(
-			// 	e => e.classifications[0].segment.name
-			// )
-			// console.log('event type: ', eventTypes)
-			// console.log('events: ', events)
-			// console.log('eventslast: ', data._embedded.events.slice(0, 50))
+			setEvents(data)
 		}
 		fetchEvents()
 		// console.log('name: ', name)
@@ -66,15 +58,17 @@ export default function Home() {
 					onChange={handleNameChange}
 					type='text'
 					size='sm'
-					variant='outline'
-					placeholder='Search event name...'
+					variant='filled'
+					placeholder='Event ...'
+					width='30%'
 				/>
 				<Input
 					onChange={handleCityChange}
 					type='text'
 					size='sm'
-					variant='outline'
-					placeholder='Search city...'
+					variant='filled'
+					placeholder='City...'
+					width='30%'
 				/>
 				<ButtonComponent
 					colorScheme='teal'
