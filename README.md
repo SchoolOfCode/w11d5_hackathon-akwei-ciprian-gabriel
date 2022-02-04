@@ -1,44 +1,34 @@
-![](src/soc-logo.svg)
-# Hackathon Web App, CodeWars or Learning Resource
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Welcome to your penultimate hackathon!
+## Getting Started
 
-For this hackathon you can pick one of the following:
+First, run the development server:
 
-- Build a web app with React
-- Make your own CodeWars
-- Make a learning resource for a particular topic, in the form of a blog post, video explainer or tutorial
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-This repo has already been scaffolded with a React app using `create-react-app`. If you're going with one of the other options, feel free to delete all of the React code and complete the CodeWars/learning resource in this repo instead.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Web App
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-In your teams, build any React app. We encourage you to explore and experiment with all the things you've been introduced to over the last two weeks, some of which are:
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-- Deployments
-- Authentication
-- Authorisation
-- UI Libraries
-- Storybook
-- NextJS
-- Gatsby
-- Custom Hooks
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-The main aim is to engineer a React app, so only bring any of the above things in with a light touch; you have less than a day so scale your plan accordingly!
+## Learn More
 
-As always, spend a bit of time ideating and planning, and then build your React app.
+To learn more about Next.js, take a look at the following resources:
 
-## CodeWars
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-1. Write your kata
-2. Write your tests
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-Refer back to the make-your-own-codewars workshop done before the Christmas break for more detailed instructions.
+## Deploy on Vercel
 
-## Learning Resource
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Create a learning resource to be shared with everyone for any of the topics we've covered. It can be in the form of a video explainer, blog post or some other type of tutorial.
-
-## Presentations
-
-Close to the end of the day you'll present to each other in small groups, sharing what you've learnt and achieved during the day.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
