@@ -8,7 +8,9 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
 	const [name, setName] = useState('')
 	const [city, setCity] = useState('')
-	const [events, setEvents] = useState([])
+	const [isLoading, setIsLoading] = useState(false)
+	const [error, setError] = useState(null)
+	const [events, setEvents] = useState(null)
 	function handleNameChange(e) {
 		setName(e.target.value)
 	}
@@ -21,19 +23,28 @@ export default function Home() {
 		setName('')
 	}
 	async function fetchEvents(city, name) {
+		setIsLoading(true)
+
 		const url =
 			city.length > 0 || name.length > 0
-				? `https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=${process.env.NEXT_PUBLIC_API_KEY}&city=${city}&keyword=${name}`
-				: `https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB`
+				? `https://app.ticketmaster.com/discovery/v2/events.json?size=20&apikey=${process.env.NEXT_PUBLIC_API_KEY}&city=${city}&keyword=${name}`
+				: `https://app.ticketmaster.com/discovery/v2/events.json?size=20&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB`
 		try {
 			const response = await fetch(url)
 			const data = await response.json()
 			setEvents(data._embedded.events)
-			console.log({city, name})
-		} catch (error) {
+			setError(null)
+
+			setIsLoading(false)
+		} catch (err) {
+			// setIsLoading(false)
+			setError(err)
+			setEvents(null)
+
 			console.log(error)
 		}
 	}
+
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -50,7 +61,7 @@ export default function Home() {
 					size='sm'
 					variant='filled'
 					placeholder='Event ...'
-					width='30%'
+					width='20%'
 					value={name}
 				/>
 				<Input
@@ -59,7 +70,7 @@ export default function Home() {
 					size='sm'
 					variant='filled'
 					placeholder='City...'
-					width='30%'
+					width='20%'
 					value={city}
 				/>
 				<ButtonComponent
@@ -71,13 +82,11 @@ export default function Home() {
 					text='Search'
 				/>
 				<div className={styles.events}>
-					{!events ? (
-						<h2>no event</h2>
-					) : (
+					{events?.length > 0 &&
+						!isLoading &&
 						events.map(event => {
 							return <EventCard key={event.id} event={event} />
-						})
-					)}
+						})}
 				</div>
 			</main>
 		</div>
