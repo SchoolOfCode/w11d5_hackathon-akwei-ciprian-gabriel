@@ -59,11 +59,11 @@ export default function Home() {
 				setError(err)
 				setEvents(null)
 
-				console.log(error)
+				// console.log(error)
 			}
 		}
 		fetchEvents()
-	}, [error])
+	}, [])
 	return (
 		<div className={styles.container}>
 			<Head>
