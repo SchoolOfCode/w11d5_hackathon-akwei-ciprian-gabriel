@@ -1,10 +1,10 @@
 import Head from 'next/head'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
 	// const [name, setName] = useState('')
-	// const [events, setEvents] = useState({})
+	const [events, setEvents] = useState([])
 	// console.log('key: ', process.env.NEXT_PUBLIC_API_KEY)
 	useEffect(() => {
 		async function fetchEvents() {
@@ -13,19 +13,23 @@ export default function Home() {
 			)
 			const data = await response.json()
 			console.log('data: ', data)
-			// setEvents(data._embedded.events.slice(0, 50))
-			// const eventTypes = data._embedded.events.map(
-			// 	e => e.classifications[0].segment.name
-			// )
+			setEvents(data._embedded.events.slice(0, 50))
+			const eventTypes = data._embedded.events.map(
+				e => e.classifications[0].segment.name
+			)
+			console.log('event type: ', eventTypes)
+			console.log('events: ', events)
+			console.log('eventslast: ', data._embedded.events.slice(0, 50))
 			// const filteredEvents = eventTypes.filter(
 			// 	(e, i) => eventTypes.indexOf(e) === i
 			// )
-			// setOptions(filteredEvents)
 		}
 		fetchEvents()
 		// console.log('name: ', name)
 	}, [])
+	// if (events) {
 
+	// }
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -37,34 +41,9 @@ export default function Home() {
 			<main className={styles.main}>
 				<h1 className={styles.title}> Event Finder</h1>
 				<input type='text' placeholder='event...' />
-
-				<div className={styles.grid}>
-					<a href='https://nextjs.org/docs' className={styles.card}>
-						<h2>Documentation &rarr;</h2>
-						<p>Find in-depth information about Next.js features and API.</p>
-					</a>
-
-					<a href='https://nextjs.org/learn' className={styles.card}>
-						<h2>Learn &rarr;</h2>
-						<p>Learn about Next.js in an interactive course with quizzes!</p>
-					</a>
-
-					<a
-						href='https://github.com/vercel/next.js/tree/canary/examples'
-						className={styles.card}>
-						<h2>Examples &rarr;</h2>
-						<p>Discover and deploy boilerplate example Next.js projects.</p>
-					</a>
-
-					<a
-						href='https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-						className={styles.card}>
-						<h2>Deploy &rarr;</h2>
-						<p>
-							Instantly deploy your Next.js site to a public URL with Vercel.
-						</p>
-					</a>
-				</div>
+				{events.map(e => {
+					return <p key={e.id}>{e.name}</p>
+				})}
 			</main>
 		</div>
 	)
