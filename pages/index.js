@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import {useEffect, useState} from 'react'
+import EventCard from '../src/components/EventCard'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -20,16 +21,21 @@ export default function Home() {
 			console.log('event type: ', eventTypes)
 			console.log('events: ', events)
 			console.log('eventslast: ', data._embedded.events.slice(0, 50))
-			// const filteredEvents = eventTypes.filter(
-			// 	(e, i) => eventTypes.indexOf(e) === i
-			// )
 		}
 		fetchEvents()
 		// console.log('name: ', name)
 	}, [])
-	// if (events) {
+	// export async function getServerSideProps() {
+	// 	// Fetch data from external API
+	// 	const res = await fetch(`https://.../data`)
+	// 	const data = await res.json()
 
+	// 	// Pass data to the page via props
+	// 	return {props: {data}}
 	// }
+	// // if (events) {
+
+	// // }
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -41,9 +47,10 @@ export default function Home() {
 			<main className={styles.main}>
 				<h1 className={styles.title}> Event Finder</h1>
 				<input type='text' placeholder='event...' />
-				{events.map(e => {
-					return <p key={e.id}>{e.name}</p>
-				})}
+				{events.length > 0 &&
+					events.map(event => {
+						return <EventCard key={event.id} event={event} />
+					})}
 			</main>
 		</div>
 	)
