@@ -1,17 +1,34 @@
-import {Button, Input} from '@chakra-ui/react'
+import {Input} from '@chakra-ui/react'
 import Head from 'next/head'
 import {useEffect, useState} from 'react'
+import ButtonComponent from '../src/components/ButtonComponent'
 import EventCard from '../src/components/EventCard'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-	// const [name, setName] = useState('')
+	const [name, setName] = useState('')
 	const [events, setEvents] = useState([])
+	function handleChange(e) {
+		setName(e.target.value)
+	}
+	async function handleClick() {
+		await fetchEvent(name)
+	}
+	async function fetchEvent(e) {
+		// setName(e.target.value)
+		const url =
+			name.length > 0
+				? `https://app.ticketmaster.com/discovery/v2/events.json?size=200&keyword=${name}&city=London&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
+				: `https://app.ticketmaster.com/discovery/v2/events.json?size=200&city=London&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
+		const response = await fetch(url)
+		const data = await response.json()
+		setEvents(data._embedded.events.slice(0, 50))
+	}
 	// console.log('key: ', process.env.NEXT_PUBLIC_API_KEY)
 	useEffect(() => {
 		async function fetchEvents() {
 			const response = await fetch(
-				`https://app.ticketmaster.com/discovery/v2/events.json?size=200&keyword=stormzy&city=London&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
+				`https://app.ticketmaster.com/discovery/v2/events.json?size=200&keyword=${name}&city=London&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
 			)
 			const data = await response.json()
 			console.log('data: ', data)
@@ -48,14 +65,20 @@ export default function Home() {
 			<main className={styles.main}>
 				<h1 className={styles.title}> Event Finder</h1>
 				<Input
+					onChange={handleChange}
 					type='text'
 					size='sm'
 					variant='outline'
 					placeholder='Search event...'
 				/>
-				<Button colorScheme='teal' size='sm'>
-					Search Event
-				</Button>
+				<ButtonComponent
+					colorScheme='teal'
+					size='sm'
+					handleClick={e => {
+						handleClick(e)
+					}}
+					text='Search Event'
+				/>
 				{events.length > 0 &&
 					events.map(event => {
 						return <EventCard key={event.id} event={event} />
