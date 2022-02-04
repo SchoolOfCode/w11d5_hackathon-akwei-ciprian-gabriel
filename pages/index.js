@@ -1,6 +1,6 @@
 import {Input} from '@chakra-ui/react'
 import Head from 'next/head'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import ButtonComponent from '../src/components/ButtonComponent'
 import EventCard from '../src/components/EventCard'
 import styles from '../styles/Home.module.css'
@@ -16,34 +16,24 @@ export default function Home() {
 		setCity(e.target.value)
 	}
 	async function handleClick() {
-		await fetchEvent(name)
+		await fetchEvents(city, name)
+		setCity('')
+		setName('')
 	}
-	async function fetchEvent() {
-		// setName(e.target.value)
+	async function fetchEvents(city, name) {
 		const url =
-			name.length > 0
-				? `https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb`
-				: city.length > 0
-				? `https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&city=${city}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb`
-				: `https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb&countryCode=GB`
-		const response = await fetch(url)
-		const data = await response.json()
-		console.log('single data: ', data)
-
-		setEvents(data._embedded.events.slice(0, 10))
-	}
-	useEffect(() => {
-		async function fetchEvents() {
-			const response = await fetch(
-				`https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB`
-			)
+			city.length > 0 || name.length > 0
+				? `https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=${process.env.NEXT_PUBLIC_API_KEY}&city=${city}&keyword=${name}`
+				: `https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB`
+		try {
+			const response = await fetch(url)
 			const data = await response.json()
-			console.log('events data: ', data)
-			setEvents(data)
+			setEvents(data._embedded.events)
+			console.log({city, name})
+		} catch (error) {
+			console.log(error)
 		}
-		fetchEvents()
-		// console.log('name: ', name)
-	}, [])
+	}
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -61,6 +51,7 @@ export default function Home() {
 					variant='filled'
 					placeholder='Event ...'
 					width='30%'
+					value={name}
 				/>
 				<Input
 					onChange={handleCityChange}
@@ -69,6 +60,7 @@ export default function Home() {
 					variant='filled'
 					placeholder='City...'
 					width='30%'
+					value={city}
 				/>
 				<ButtonComponent
 					colorScheme='teal'
@@ -76,12 +68,17 @@ export default function Home() {
 					handleClick={e => {
 						handleClick(e)
 					}}
-					text='Search Event'
+					text='Search'
 				/>
-				{events.length > 0 &&
-					events.map(event => {
-						return <EventCard key={event.id} event={event} />
-					})}
+				<div className={styles.events}>
+					{!events ? (
+						<h2>no event</h2>
+					) : (
+						events.map(event => {
+							return <EventCard key={event.id} event={event} />
+						})
+					)}
+				</div>
 			</main>
 		</div>
 	)

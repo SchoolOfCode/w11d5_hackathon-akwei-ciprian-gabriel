@@ -1,12 +1,17 @@
 import Image from 'next/image'
 import React from 'react'
+import styles from '../../../styles/EventCard.module.css'
+import ButtonComponent from '../ButtonComponent'
 
 function EventCard({event}) {
+	if (!event) {
+		return <h2>No event found...</h2>
+	}
 	return (
-		<div>
+		<div className={styles.card}>
 			<h2>Event: {event.name}</h2>
 			<Image
-				width={400}
+				width={200}
 				height={300}
 				src={`${event.images[0].url}`}
 				alt={event.name}
@@ -17,11 +22,9 @@ function EventCard({event}) {
 			<h2>Venue: {event._embedded.venues[0].name}</h2>
 			<p>Date: {event.dates.start.localDate}</p>
 			<p>Start Time: {event.dates.start.localTime}</p>
-			<button>
-				<a href={event.url} target='_blank noopener norefferer'>
-					Buy Ticket
-				</a>
-			</button>
+			<ButtonComponent text='	Buy Ticket'>
+				<a href={event.url} target='_blank noopener norefferer'></a>
+			</ButtonComponent>
 		</div>
 	)
 }
