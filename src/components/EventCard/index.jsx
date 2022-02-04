@@ -1,10 +1,16 @@
+import Image from 'next/image'
 import React from 'react'
 
 function EventCard({event}) {
 	return (
 		<div>
 			<h2>Event: {event.name}</h2>
-			<img src={event.images[0].url} alt={event.name} />
+			<Image
+				width={400}
+				height={300}
+				src={`${event.images[0].url}`}
+				alt={event.name}
+			/>
 			{event.classifications[0].segment.name && (
 				<h3>Category: {event.classifications[0].segment.name}</h3>
 			)}

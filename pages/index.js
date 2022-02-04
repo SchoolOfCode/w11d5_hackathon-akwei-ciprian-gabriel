@@ -36,7 +36,7 @@ export default function Home() {
 	useEffect(() => {
 		async function fetchEvents() {
 			const response = await fetch(
-				`https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
+				`https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB`
 			)
 			//&countryCode=GB
 			const data = await response.json()
