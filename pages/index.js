@@ -7,53 +7,51 @@ import styles from '../styles/Home.module.css'
 
 export default function Home() {
 	const [name, setName] = useState('')
+	const [city, setCity] = useState('')
 	const [events, setEvents] = useState([])
-	function handleChange(e) {
+	function handleNameChange(e) {
 		setName(e.target.value)
+	}
+	function handleCityChange(e) {
+		setCity(e.target.value)
 	}
 	async function handleClick() {
 		await fetchEvent(name)
 	}
-	async function fetchEvent(e) {
+	async function fetchEvent() {
 		// setName(e.target.value)
 		const url =
 			name.length > 0
-				? `https://app.ticketmaster.com/discovery/v2/events.json?size=200&keyword=${name}&city=London&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
-				: `https://app.ticketmaster.com/discovery/v2/events.json?size=200&city=London&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
-		const response = await fetch(url)
+				? `https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb`
+				: city.length > 0
+				? `https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&city=${city}&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb`
+				: `https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=${process.env.NEXT_PUBLIC_API_KEY}&locale=en-gb`
+		const response = await fetch(url) //&countryCode=GB
 		const data = await response.json()
-		setEvents(data._embedded.events.slice(0, 50))
+		console.log('single data: ', data)
+
+		setEvents(data._embedded.events.slice(0, 10))
 	}
 	// console.log('key: ', process.env.NEXT_PUBLIC_API_KEY)
 	useEffect(() => {
 		async function fetchEvents() {
 			const response = await fetch(
-				`https://app.ticketmaster.com/discovery/v2/events.json?size=200&keyword=${name}&city=London&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
+				`https://app.ticketmaster.com/discovery/v2/events.json?size=10&keyword=${name}&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
 			)
+			//&countryCode=GB
 			const data = await response.json()
-			console.log('data: ', data)
+			console.log('events data: ', data)
 			setEvents(data._embedded.events.slice(0, 50))
-			const eventTypes = data._embedded.events.map(
-				e => e.classifications[0].segment.name
-			)
-			console.log('event type: ', eventTypes)
-			console.log('events: ', events)
-			console.log('eventslast: ', data._embedded.events.slice(0, 50))
+			// const eventTypes = data._embedded.events.map(
+			// 	e => e.classifications[0].segment.name
+			// )
+			// console.log('event type: ', eventTypes)
+			// console.log('events: ', events)
+			// console.log('eventslast: ', data._embedded.events.slice(0, 50))
 		}
 		fetchEvents()
 		// console.log('name: ', name)
 	}, [])
-	// export async function getServerSideProps() {
-	// 	// Fetch data from external API
-	// 	const res = await fetch(`https://.../data`)
-	// 	const data = await res.json()
-
-	// 	// Pass data to the page via props
-	// 	return {props: {data}}
-	// }
-	// // if (events) {
-
-	// // }
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -65,11 +63,18 @@ export default function Home() {
 			<main className={styles.main}>
 				<h1 className={styles.title}> Event Finder</h1>
 				<Input
-					onChange={handleChange}
+					onChange={handleNameChange}
 					type='text'
 					size='sm'
 					variant='outline'
-					placeholder='Search event...'
+					placeholder='Search event name...'
+				/>
+				<Input
+					onChange={handleCityChange}
+					type='text'
+					size='sm'
+					variant='outline'
+					placeholder='Search city...'
 				/>
 				<ButtonComponent
 					colorScheme='teal'
