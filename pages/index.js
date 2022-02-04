@@ -30,14 +30,13 @@ export default function Home() {
 				? `https://app.ticketmaster.com/discovery/v2/events.json?size=20&apikey=${process.env.NEXT_PUBLIC_API_KEY}&city=${city}&keyword=${name}`
 				: `https://app.ticketmaster.com/discovery/v2/events.json?size=20&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB`
 		try {
-			const response = await fetch(url)
+			const response = await fetch(url, {mode: 'no-cors'})
 			const data = await response.json()
 			setEvents(data._embedded.events)
 			setError(null)
 
 			setIsLoading(false)
 		} catch (err) {
-			// setIsLoading(false)
 			setError(err)
 			setEvents(null)
 
@@ -50,14 +49,13 @@ export default function Home() {
 
 			const url = `https://app.ticketmaster.com/discovery/v2/events.json?size=20&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB&sort=random`
 			try {
-				const response = await fetch(url)
+				const response = await fetch(url, {mode: 'no-cors'})
 				const data = await response.json()
 				setEvents(data._embedded.events)
 				setError(null)
 
 				setIsLoading(false)
 			} catch (err) {
-				// setIsLoading(false)
 				setError(err)
 				setEvents(null)
 
