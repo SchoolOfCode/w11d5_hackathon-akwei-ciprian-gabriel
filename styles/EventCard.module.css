@@ -6,10 +6,14 @@
 	position: relative;
 	z-index: 2;
 	color: white;
-	/* background-color: white; */
 	border: 3px solid white;
 	border-radius: 0.4rem;
 	padding: 0.5rem;
+	transition: transform 0.3s linear, box-shadow 0.3s linear;
+}
+.card:hover {
+	box-shadow: 0 0 17px 5px white;
+	transform: scale(1.012);
 }
 .name {
 	text-align: center;

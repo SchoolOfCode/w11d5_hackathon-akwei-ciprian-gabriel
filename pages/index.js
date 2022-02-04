@@ -55,32 +55,34 @@ export default function Home() {
 
 			<main className={styles.main}>
 				<h1 className={styles.title}> Event Finder</h1>
-				<Input
-					onChange={handleNameChange}
-					type='text'
-					size='sm'
-					variant='filled'
-					placeholder='Event ...'
-					width='20%'
-					value={name}
-				/>
-				<Input
-					onChange={handleCityChange}
-					type='text'
-					size='sm'
-					variant='filled'
-					placeholder='City...'
-					width='20%'
-					value={city}
-				/>
-				<ButtonComponent
-					colorScheme='teal'
-					size='sm'
-					handleClick={e => {
-						handleClick(e)
-					}}
-					text='Search'
-				/>
+				<div className={styles.inputs}>
+					<Input
+						onChange={handleNameChange}
+						type='text'
+						size='sm'
+						variant='filled'
+						placeholder='Event ...'
+						// width='25%'
+						value={name}
+					/>
+					<Input
+						onChange={handleCityChange}
+						type='text'
+						size='sm'
+						variant='filled'
+						placeholder='City...'
+						// width='25%'
+						value={city}
+					/>
+					<ButtonComponent
+						colorScheme='teal'
+						size='sm'
+						handleClick={e => {
+							handleClick(e)
+						}}
+						text='Search'
+					/>
+				</div>
 				<div className={styles.events}>
 					{events?.length > 0 &&
 						!isLoading &&

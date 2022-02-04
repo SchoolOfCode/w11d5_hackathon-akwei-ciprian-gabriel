@@ -34,6 +34,7 @@
 	flex-wrap: wrap;
 	width: 80%;
 	height: 50rem;
+	padding: 2rem;
 	margin: auto;
 	/* overflow-y: scroll; */
 	overflow: auto;
@@ -85,13 +86,46 @@
 .description {
 	text-align: center;
 }
-
-.description {
-	margin: 4rem 0;
-	line-height: 1.5;
-	font-size: 1.5rem;
+.inputs {
+	position: relative;
+	width: 30%;
+	display: flex;
+	justify-content: center;
+	height: 3rem;
+	background-color: skyblue;
+	border-radius: 0.4rem;
+	transition: box-shadow 0.2s linear;
 }
+.inputs:hover {
+	box-shadow: 0 0 3px 2px white;
 
+	/* outline: 2px solid black; */
+}
+.inputs input {
+	outline: none;
+	border: none;
+}
+.inputs input,
+.inputs button {
+	height: 100%;
+	font-size: 1.2rem;
+}
+.inputs input:first-of-type {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-top-left-radius: inherit;
+	border-bottom-left-radius: inherit;
+	border-right: 2px solid #3182ce;
+}
+.inputs input:last-of-type {
+	border-radius: 0;
+	border-left: 2px solid #3182ce;
+}
+.inputs button {
+	width: 25%;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
 @media (max-width: 600px) {
 	.grid {
 		width: 100%;
