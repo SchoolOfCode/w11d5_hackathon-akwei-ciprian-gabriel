@@ -1,6 +1,6 @@
 import {Input} from '@chakra-ui/react'
 import Head from 'next/head'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import ButtonComponent from '../src/components/ButtonComponent'
 import EventCard from '../src/components/EventCard'
 import styles from '../styles/Home.module.css'
@@ -18,11 +18,11 @@ export default function Home() {
 		setCity(e.target.value)
 	}
 	async function handleClick() {
-		await fetchEvents(city, name)
+		await fetchEvent(city, name)
 		setCity('')
 		setName('')
 	}
-	async function fetchEvents(city, name) {
+	async function fetchEvent(city, name) {
 		setIsLoading(true)
 
 		const url =
@@ -44,7 +44,28 @@ export default function Home() {
 			console.log(error)
 		}
 	}
+	useEffect(() => {
+		async function fetchEvents() {
+			setIsLoading(true)
 
+			const url = `https://app.ticketmaster.com/discovery/v2/events.json?size=20&apikey=${process.env.NEXT_PUBLIC_API_KEY}&countryCode=GB&sort=random`
+			try {
+				const response = await fetch(url)
+				const data = await response.json()
+				setEvents(data._embedded.events)
+				setError(null)
+
+				setIsLoading(false)
+			} catch (err) {
+				// setIsLoading(false)
+				setError(err)
+				setEvents(null)
+
+				console.log(error)
+			}
+		}
+		fetchEvents()
+	}, [error])
 	return (
 		<div className={styles.container}>
 			<Head>
