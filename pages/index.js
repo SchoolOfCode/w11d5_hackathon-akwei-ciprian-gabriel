@@ -1,3 +1,4 @@
+import {Button, Input} from '@chakra-ui/react'
 import Head from 'next/head'
 import {useEffect, useState} from 'react'
 import EventCard from '../src/components/EventCard'
@@ -46,7 +47,15 @@ export default function Home() {
 
 			<main className={styles.main}>
 				<h1 className={styles.title}> Event Finder</h1>
-				<input type='text' placeholder='event...' />
+				<Input
+					type='text'
+					size='sm'
+					variant='outline'
+					placeholder='Search event...'
+				/>
+				<Button colorScheme='teal' size='sm'>
+					Search Event
+				</Button>
 				{events.length > 0 &&
 					events.map(event => {
 						return <EventCard key={event.id} event={event} />
