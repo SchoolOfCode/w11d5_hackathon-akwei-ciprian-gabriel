@@ -27,7 +27,7 @@ function EventCard({event}) {
 					Start Time: <strong>{event.dates.start.localTime}</strong>
 				</p>
 			</div>
-			<a href={event.url} target='_blank noopener norefferer'>
+			<a href={`${event.url}`} target='_blank noopener norefferer'>
 				<ButtonComponent text='	Buy Ticket' />
 			</a>
 		</div>
