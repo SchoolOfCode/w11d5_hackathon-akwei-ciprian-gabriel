@@ -18,6 +18,7 @@ export default function Home() {
 		setCity(e.target.value)
 	}
 	async function handleClick() {
+		console.log('clicked')
 		await fetchEvent(city, name)
 		setCity('')
 		setName('')
@@ -58,8 +59,6 @@ export default function Home() {
 			} catch (err) {
 				setError(err)
 				setEvents(null)
-
-				console.log(error)
 			}
 		}
 		fetchEvents()
